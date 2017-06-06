@@ -7,11 +7,7 @@ package Game;
 
 import java.awt.Dimension;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,7 +15,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +26,9 @@ import java.util.logging.Logger;
 public class RPGGui extends javax.swing.JFrame {
 
     Dimension frameSize;
+    private int playerClassNumber = 0;
     private boolean retry = false;
+    private boolean completedFlag = false;
     private final ArrayList<ArrayList<Boolean>> DEFAULTMONSTERS = new ArrayList<>();
     private final Die D20 = new Die(20); 
     private final Die D8 = new Die(8);
@@ -46,7 +43,6 @@ public class RPGGui extends javax.swing.JFrame {
     private int playerPosition = 0;
     private ArrayList<Monster> currentMonsters = new ArrayList<>();
     private boolean playerAlive = true;
-    private boolean gameActive = true;
     private String gameText = "";
     /**
      * Creates new form RPGGui
@@ -195,11 +191,11 @@ public class RPGGui extends javax.swing.JFrame {
         {
             if (attacker.getType() == 0)
             {
-                System.out.print("You attacked and hit the "+defender.getName());
+                gameText += "\tYou attacked and hit the "+defender.getName()+"";
             }
             else
             {
-                System.out.print("The " + attacker.getName() + " hits you ("+defender.getName()+")");
+               gameText += "\tThe " + attacker.getName() + " hits you ("+defender.getName()+")";
             }
             switch(attacker.getDamageClass())
             {
@@ -224,15 +220,15 @@ public class RPGGui extends javax.swing.JFrame {
                 case 8:
                     if (defender.getType() == 0)
                     {
-                        System.out.println(" for " + damage + " damage, you have "+player.getHp()+"HP left");
+                        gameText += " for " + damage + " damage, you have "+player.getHp()+"HP left\n";
                     }
                     else
                     {
-                        System.out.println(" for " + damage + " damage");
+                        gameText += " for " + damage + " damage\n";
                     }
                     break;
                 case 5:
-                    System.out.println(" for " + damage1 + " and " + damage2 +  " damage");
+                    gameText += " for " + damage1 + " and " + damage2 +  " damage\n";
                     break;
             }
             
@@ -241,11 +237,11 @@ public class RPGGui extends javax.swing.JFrame {
         {
             if (attacker.getType() == 0)
             {
-                System.out.println("You missed your attack!!");
+                gameText += "\tYou missed your attack!!\n";
             }
             else
             {
-                System.out.println(attacker.getName()+" missed the attack on you");
+                gameText += "\t"+attacker.getName()+" missed the attack on you\n";
             }
         }
     }
@@ -433,64 +429,6 @@ public class RPGGui extends javax.swing.JFrame {
         return isAlive;
     }
     
-    public void printTargets()
-    {
-        /**
-         * this method who you will attack and sets a number to it 
-         * @auther WIlliam
-         * 
-         */
-        System.out.println("Who will you attack?");
-        int index = 1;
-        for(Monster monster : currentMonsters)
-        {
-            System.out.println((index++)+": "+monster.getName());
-        }
-    }
-    
-    public void inCombat()
-    {
-        int input;
-        boolean isIncorrect = true;
-        while (isIncorrect)
-        {
-            try 
-            {
-                input = Integer.parseInt(SCAN.nextLine());
-                if(input > 0 && input <= currentMonsters.size())
-                {
-                    attack(player, currentMonsters.get(input-1));
-                    isIncorrect = false;
-                }
-                else
-                {
-                    System.out.println("That is not a valid number.");
-                }
-            }
-            catch(NumberFormatException e)
-            {
-                System.out.println("That is an invalid target.(Enter the number!)");
-            }
-        }
-        for (int i = 0;i < currentMonsters.size();i++)
-        {
-            if (!(isMonsterAlive(currentMonsters.get(i))))
-            {
-                System.out.println("You have killed the "+currentMonsters.get(i).getName() + "!");
-                removeMonster(i);
-            }
-        }
-        for (int i = 0; i < currentMonsters.size(); i++)
-        {
-            attack(currentMonsters.get(i), player);
-            isPlayerAlive();
-            if (!playerAlive)
-            {
-                break;
-            }
-        }
-        
-    }
     
     public void isPlayerAlive()
     {
@@ -559,7 +497,7 @@ public class RPGGui extends javax.swing.JFrame {
         if(playerPosition == 4)
             {
                 backb.setEnabled(false);
-                gameText += "Your can only go forwards...\n";
+                gameText += "Your can only go forwards...\n\n";
             }
             if(playerPosition == 5)
             {
@@ -571,12 +509,12 @@ public class RPGGui extends javax.swing.JFrame {
             if(playerPosition > 5 && playerPosition <=8)
             {
                 setPathVisible(false);
-                gameText += "There's no other paths to advance here...";
+                gameText += "There's no other paths to advance here...\n\n";
             }
             if(playerPosition > 8 && playerPosition<=14 )
             {
                 setPathVisible(false);
-                gameText += "Continue or go back?\n";
+                gameText += "Continue or go back?\n\n";
             }
             textAreaUpdate();
     }
@@ -790,8 +728,8 @@ public class RPGGui extends javax.swing.JFrame {
 
         gnollImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/800c9f6f5d6b1f71b4db354f0c72de38.jpg"))); // NOI18N
         gnollImageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gnollImageLabelMouseClicked(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                gnollImageLabelMouseReleased(evt);
             }
         });
         gamePanel.add(gnollImageLabel);
@@ -799,8 +737,8 @@ public class RPGGui extends javax.swing.JFrame {
 
         goblinImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/goblin.jpg"))); // NOI18N
         goblinImageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                goblinImageLabelMouseClicked(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                goblinImageLabelMouseReleased(evt);
             }
         });
         gamePanel.add(goblinImageLabel);
@@ -808,8 +746,8 @@ public class RPGGui extends javax.swing.JFrame {
 
         koboldImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/kobold.jpg"))); // NOI18N
         koboldImageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                koboldImageLabelMouseClicked(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                koboldImageLabelMouseReleased(evt);
             }
         });
         gamePanel.add(koboldImageLabel);
@@ -817,32 +755,37 @@ public class RPGGui extends javax.swing.JFrame {
 
         orcImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ork.jpg"))); // NOI18N
         orcImageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                orcImageLabelMouseClicked(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                orcImageLabelMouseReleased(evt);
             }
         });
         gamePanel.add(orcImageLabel);
         orcImageLabel.setBounds(530, 430, 100, 150);
         orcImageLabel.getAccessibleContext().setAccessibleName("monster4");
 
+        playerHealthBar.setStringPainted(true);
         gamePanel.add(playerHealthBar);
-        playerHealthBar.setBounds(610, 30, 100, 14);
+        playerHealthBar.setBounds(610, 30, 100, 17);
 
         orcHealthBar.setMaximum(24);
+        orcHealthBar.setStringPainted(true);
         gamePanel.add(orcHealthBar);
-        orcHealthBar.setBounds(530, 410, 100, 14);
+        orcHealthBar.setBounds(530, 410, 100, 17);
 
         gnollHealthBar.setMaximum(17);
+        gnollHealthBar.setStringPainted(true);
         gamePanel.add(gnollHealthBar);
-        gnollHealthBar.setBounds(680, 410, 100, 14);
+        gnollHealthBar.setBounds(680, 410, 100, 17);
 
         goblinHealthBar.setMaximum(8);
+        goblinHealthBar.setStringPainted(true);
         gamePanel.add(goblinHealthBar);
-        goblinHealthBar.setBounds(530, 230, 100, 14);
+        goblinHealthBar.setBounds(530, 230, 100, 17);
 
         koboldHealthBar.setMaximum(8);
+        koboldHealthBar.setStringPainted(true);
         gamePanel.add(koboldHealthBar);
-        koboldHealthBar.setBounds(680, 230, 100, 14);
+        koboldHealthBar.setBounds(680, 230, 100, 17);
 
         saveReminder.setForeground(new java.awt.Color(200, 200, 200));
         saveReminder.setText("Please remember to save manually after battle! You cannot save during battle!");
@@ -884,151 +827,6 @@ public class RPGGui extends javax.swing.JFrame {
        // TODO add your handling code here:
     }//GEN-LAST:event_exitGameButtonActionPerformed
 
-    private void goblinImageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_goblinImageLabelMouseClicked
-        // TODO add your handling code here:
-        int index = 0;
-        for(Monster monster : currentMonsters)
-        {
-            if (monster.getName().equals("goblin"))
-            {
-                break;
-            }
-            index++;
-        }
-        attack(player, currentMonsters.get(index));
-        if(!isMonsterAlive(currentMonsters.get(index)))
-        {
-            gameText += "\nYou have killed the goblin!\n";
-            goblinImageLabel.setVisible(false);
-            goblinHealthBar.setValue(8);
-            goblinHealthBar.setVisible(false);
-            removeMonster(index);
-            backb.setEnabled(!haveMonster());
-            continueb.setEnabled(!haveMonster());
-            saveGameButton.setEnabled(!haveMonster());
-            if(!haveMonster())
-            {
-                roomCheckText();
-            }
-        }
-        else
-        {
-            attackBack();
-            playerHealthBar.setValue(player.getHp());
-            goblinHealthBar.setValue(currentMonsters.get(index).getHp());
-        }
-        textAreaUpdate();
-    }//GEN-LAST:event_goblinImageLabelMouseClicked
-
-    private void koboldImageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_koboldImageLabelMouseClicked
-        // TODO add your handling code here:
-        int index = 0;
-        for(Monster monster : currentMonsters)
-        {
-            if (monster.getName().equals("kobold"))
-            {
-                break;
-            }
-            index++;
-        }
-        attack(player, currentMonsters.get(index));
-        if(!isMonsterAlive(currentMonsters.get(index)))
-        {
-            gameText += "\nYou have killed the kobold!\n";
-            koboldImageLabel.setVisible(false);
-            koboldHealthBar.setValue(8);
-            koboldHealthBar.setVisible(false);
-            removeMonster(index);
-            backb.setEnabled(!haveMonster());
-            continueb.setEnabled(!haveMonster());
-            saveGameButton.setEnabled(!haveMonster());
-            if(!haveMonster())
-            {
-                roomCheckText();
-            }
-        }
-        else
-        {
-            attackBack();
-            playerHealthBar.setValue(player.getHp());
-            koboldHealthBar.setValue(currentMonsters.get(index).getHp());
-        }
-        textAreaUpdate();
-    }//GEN-LAST:event_koboldImageLabelMouseClicked
-
-    private void orcImageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orcImageLabelMouseClicked
-        // TODO add your handling code here:
-        int index = 0;
-        for(Monster monster : currentMonsters)
-        {
-            if (monster.getName().equals("orc"))
-            {
-                break;
-            }
-            index++;
-        }
-        attack(player, currentMonsters.get(index));
-        if(!isMonsterAlive(currentMonsters.get(index)))
-        {
-            gameText += "\nYou have killed the Orc!\n";
-            orcImageLabel.setVisible(false);
-            orcHealthBar.setValue(24);
-            orcHealthBar.setVisible(false);
-            removeMonster(index);
-            backb.setEnabled(!haveMonster());
-            continueb.setEnabled(!haveMonster());
-            saveGameButton.setEnabled(!haveMonster());
-            if(!haveMonster())
-            {
-                roomCheckText();
-            }
-        }
-        else
-        {
-            attackBack();
-            playerHealthBar.setValue(player.getHp());
-            orcHealthBar.setValue(currentMonsters.get(index).getHp());
-        }
-        textAreaUpdate();
-    }//GEN-LAST:event_orcImageLabelMouseClicked
-
-    private void gnollImageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gnollImageLabelMouseClicked
-        // TODO add your handling code here:
-        int index = 0;
-        for(Monster monster : currentMonsters)
-        {
-            if (monster.getName().equals("gnoll"))
-            {
-                break;
-            }
-            index++;
-        }
-        attack(player, currentMonsters.get(index));
-        if(!isMonsterAlive(currentMonsters.get(index)))
-        {
-            gameText += "\nYou have killed the gnoll!\n";
-            gnollImageLabel.setVisible(false);
-            gnollHealthBar.setValue(17);
-            gnollHealthBar.setVisible(false);
-            removeMonster(index);
-            backb.setEnabled(!haveMonster());
-            continueb.setEnabled(!haveMonster());
-            saveGameButton.setEnabled(!haveMonster());
-            if(!haveMonster())
-            {
-                roomCheckText();
-            }
-            
-        }
-        else
-        {
-            attackBack();
-            playerHealthBar.setValue(player.getHp());
-            gnollHealthBar.setValue(currentMonsters.get(index).getHp());
-        }
-        textAreaUpdate();
-    }//GEN-LAST:event_gnollImageLabelMouseClicked
-
     private void backbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backbActionPerformed
         // TODO add your handling code here:
         if(playerPosition == 5)
@@ -1041,6 +839,13 @@ public class RPGGui extends javax.swing.JFrame {
         }
         else if(playerPosition > 5 && playerPosition < 9)
         {
+            playerPosition = roomLayout.get(playerPosition).get(0);
+            printDescription();
+            roomCheckText();
+        }
+        else if(playerPosition == 9)
+        {
+            setPathVisible(true);
             playerPosition = roomLayout.get(playerPosition).get(0);
             printDescription();
             roomCheckText();
@@ -1234,16 +1039,17 @@ public class RPGGui extends javax.swing.JFrame {
 
     private void continuebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuebActionPerformed
         // TODO add your handling code here:
-        if(!playerAlive)
-        {
-            reset();
-        }
         
         if(playerPosition <= 3)
         {
             backb.setEnabled(false);
             playerPosition++;
             printDescription();
+        }
+        if(!playerAlive)
+        {
+            reset();
+            
         }
         if(playerPosition > 3 && playerPosition < 14)
         {
@@ -1271,6 +1077,10 @@ public class RPGGui extends javax.swing.JFrame {
             if(playerPosition == 17)
             {
                 gameText += "If you would like to play again, press the back button";
+                textAreaUpdate();
+                completedFlag = true;
+                continueb.setEnabled(false);
+                backb.setEnabled(true);
             }
         }
         
@@ -1309,12 +1119,18 @@ public class RPGGui extends javax.swing.JFrame {
         }
         else
         {
-            if((playerPosition == 4 || playerPosition > 8)&&playerPosition < 17)
+            if((playerPosition == 4 || playerPosition > 8)&&playerPosition < 14)
             {
                 playerPosition = roomLayout.get(playerPosition).get(1);
                 printDescription();
             }
-            roomCheckText();
+            if(!completedFlag)
+            {
+               roomCheckText(); 
+            }
+            else
+                completedFlag = false;
+            
             
         }
         
@@ -1336,7 +1152,7 @@ public class RPGGui extends javax.swing.JFrame {
         Statement statement;
         
         String changeName = "UPDATE SAVEGAME SET PLAYERNAME = '"+ player.getName()+ "' WHERE PLAYERNAME IS NOT null";
-        String changeDamageClass = "UPDATE SAVEGAME SET DAMAGECLASS = "+ player.getDamageClass()+ " WHERE DAMAGECLASS IS NOT null";
+        String changeDamageClass = "UPDATE SAVEGAME SET DAMAGECLASS = "+ playerClassNumber+ " WHERE DAMAGECLASS IS NOT null";
         String changeStats = "UPDATE SAVEGAME SET STATS = '"+ Arrays.toString(player.getStats())+ "' WHERE STATS IS NOT null";
         String changeCurrentRoom = "UPDATE SAVEGAME SET CURRENTROOM = "+ playerPosition+ " WHERE CURRENTROOM IS NOT null";
         String changeMonsters = "UPDATE SAVEGAME SET MONSTERS = '"+monsters+ "' WHERE MONSTERS IS NOT null";
@@ -1362,7 +1178,8 @@ public class RPGGui extends javax.swing.JFrame {
         if(!nameField.getText().equals(""))
         {   
             playerNameLabel.setText(nameField.getText());
-            switch(selectClass.getSelectedIndex())
+            playerClassNumber = selectClass.getSelectedIndex();
+            switch(playerClassNumber)
             {
                 case 0:
                     player = new Player(nameField.getText(), PlayerClass.barb());
@@ -1403,6 +1220,7 @@ public class RPGGui extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(RPGGui.class.getName()).log(Level.SEVERE, null, ex);
             }
+            gameText = "";
             addMonsters();
             playerAlive = true;
             printDescription();
@@ -1419,7 +1237,7 @@ public class RPGGui extends javax.swing.JFrame {
         String name = "";
         String stats = "";
         String monsters = "";
-        int damageClass = 0;
+        int playerClass = 0;
         int currentRoom = 0;
         Statement statement;
         String sql = "SELECT * FROM SAVEGAME";
@@ -1447,13 +1265,13 @@ public class RPGGui extends javax.swing.JFrame {
             {
                 name = rs.getString(1);
                 stats = rs.getString(2);
-                damageClass = rs.getInt(3);
+                playerClass = rs.getInt(3);
                 currentRoom = rs.getInt(4);
                 monsters = rs.getString(5);
             }
             int[] stat = Arrays.stream(stats.substring(1, stats.length()-1).split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();//credit to Saul on stackoverflow http://stackoverflow.com/questions/7646392/convert-string-to-int-array-in-java
             player = new Player(name, stat);
-            player.setDamageClass(damageClass);
+            playerClassNumber = playerClass;
             playerPosition = currentRoom;
             this.monsters = null;
             this.monsters = new ArrayList<>();
@@ -1474,28 +1292,24 @@ public class RPGGui extends javax.swing.JFrame {
         
         
         playerNameLabel.setText(player.getName());
-        switch(player.getDamageClass())
+        switch(playerClassNumber)
         {
-            case 4:
-                player = new Player(nameField.getText(), PlayerClass.barb());
+            case 0:
                 playerImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/barb.jpg")));
                 playerHealthBar.setMaximum(82);
                 player.setDamageClass(8);
                 break;
-            case 6:
-                player = new Player(nameField.getText(), PlayerClass.cleric());
+            case 1:
                 playerImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cleric.jpg")));
                 playerHealthBar.setMaximum(61);
                 player.setDamageClass(6);
                 break;
-            case 8:
-                player = new Player(nameField.getText(), PlayerClass.ranger());
+            case 2:
                 playerImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ranger.jpg")));
                 playerHealthBar.setMaximum(52);
                 player.setDamageClass(8);
                 break;
-            case 5:
-                player = new Player(nameField.getText(), PlayerClass.mage());
+            case 3:
                 playerImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/wizard.jpg")));
                 playerHealthBar.setMaximum(34);
                 player.setDamageClass(5);
@@ -1514,6 +1328,151 @@ public class RPGGui extends javax.swing.JFrame {
         // TODO add your handling code here:
         setNewGameComponentVisible(true);
     }//GEN-LAST:event_newGameButtonActionPerformed
+
+    private void orcImageLabelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orcImageLabelMouseReleased
+        // TODO add your handling code here:
+        int index = 0;
+        for(Monster monster : currentMonsters)
+        {
+            if (monster.getName().equals("orc"))
+            {
+                break;
+            }
+            index++;
+        }
+        attack(player, currentMonsters.get(index));
+        if(!isMonsterAlive(currentMonsters.get(index)))
+        {
+            gameText += "\nYou have killed the Orc!\n";
+            orcImageLabel.setVisible(false);
+            orcHealthBar.setValue(24);
+            orcHealthBar.setVisible(false);
+            removeMonster(index);
+            backb.setEnabled(!haveMonster());
+            continueb.setEnabled(!haveMonster());
+            saveGameButton.setEnabled(!haveMonster());
+            if(!haveMonster())
+            {
+                roomCheckText();
+            }
+        }
+        else
+        {
+            attackBack();
+            playerHealthBar.setValue(player.getHp());
+            orcHealthBar.setValue(currentMonsters.get(index).getHp());
+        }
+        textAreaUpdate();
+    }//GEN-LAST:event_orcImageLabelMouseReleased
+
+    private void goblinImageLabelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_goblinImageLabelMouseReleased
+        // TODO add your handling code here:
+        int index = 0;
+        for(Monster monster : currentMonsters)
+        {
+            if (monster.getName().equals("goblin"))
+            {
+                break;
+            }
+            index++;
+        }
+        attack(player, currentMonsters.get(index));
+        if(!isMonsterAlive(currentMonsters.get(index)))
+        {
+            gameText += "\nYou have killed the goblin!\n";
+            goblinImageLabel.setVisible(false);
+            goblinHealthBar.setValue(8);
+            goblinHealthBar.setVisible(false);
+            removeMonster(index);
+            backb.setEnabled(!haveMonster());
+            continueb.setEnabled(!haveMonster());
+            saveGameButton.setEnabled(!haveMonster());
+            if(!haveMonster())
+            {
+                roomCheckText();
+            }
+        }
+        else
+        {
+            attackBack();
+            playerHealthBar.setValue(player.getHp());
+            goblinHealthBar.setValue(currentMonsters.get(index).getHp());
+        }
+        textAreaUpdate();
+    }//GEN-LAST:event_goblinImageLabelMouseReleased
+
+    private void koboldImageLabelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_koboldImageLabelMouseReleased
+        // TODO add your handling code here:
+        int index = 0;
+        for(Monster monster : currentMonsters)
+        {
+            if (monster.getName().equals("kobold"))
+            {
+                break;
+            }
+            index++;
+        }
+        attack(player, currentMonsters.get(index));
+        if(!isMonsterAlive(currentMonsters.get(index)))
+        {
+            gameText += "\nYou have killed the kobold!\n";
+            koboldImageLabel.setVisible(false);
+            koboldHealthBar.setValue(8);
+            koboldHealthBar.setVisible(false);
+            removeMonster(index);
+            backb.setEnabled(!haveMonster());
+            continueb.setEnabled(!haveMonster());
+            saveGameButton.setEnabled(!haveMonster());
+            if(!haveMonster())
+            {
+                roomCheckText();
+            }
+        }
+        else
+        {
+            attackBack();
+            playerHealthBar.setValue(player.getHp());
+            koboldHealthBar.setValue(currentMonsters.get(index).getHp());
+        }
+        textAreaUpdate();
+    }//GEN-LAST:event_koboldImageLabelMouseReleased
+
+    private void gnollImageLabelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gnollImageLabelMouseReleased
+        // TODO add your handling code here:
+        int index = 0;
+        for(Monster monster : currentMonsters)
+        {
+            if (monster.getName().equals("gnoll"))
+            {
+                break;
+            }
+            index++;
+        }
+        attack(player, currentMonsters.get(index));
+        if(!isMonsterAlive(currentMonsters.get(index)))
+        {
+            gameText += "\nYou have killed the gnoll!\n";
+            gnollImageLabel.setVisible(false);
+            gnollHealthBar.setValue(17);
+            gnollHealthBar.setVisible(false);
+            removeMonster(index);
+            backb.setEnabled(!haveMonster());
+            continueb.setEnabled(!haveMonster());
+            saveGameButton.setEnabled(!haveMonster());
+            if(!haveMonster())
+            {
+                roomCheckText();
+            }
+            
+        }
+        else
+        {
+            attackBack();
+            playerHealthBar.setValue(player.getHp());
+            gnollHealthBar.setValue(currentMonsters.get(index).getHp());
+        }
+        textAreaUpdate();
+    }//GEN-LAST:event_gnollImageLabelMouseReleased
 
     /**
      * @param args the command line arguments
