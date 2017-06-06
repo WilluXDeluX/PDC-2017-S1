@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue Jun 06 03:52:08 NZST 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-015c-78f4-ccfd-00000730a480 
+on database directory C:\Users\DeluX\Documents\NetBeansProjects\RPGGame\GameDB with class loader sun.misc.Launcher$AppClassLoader@5c647e05 
+Loaded from file:/C:/Users/DeluX/Documents/NetBeansProjects/RPGGame/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_102-b14
+user.dir=C:\Users\DeluX\Documents\NetBeansProjects\RPGGame
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

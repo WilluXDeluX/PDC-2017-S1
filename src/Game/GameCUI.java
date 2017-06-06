@@ -865,7 +865,7 @@ public class GameCUI {
                     break; 
                 
                 default:
-                    System.out.println("input is not valid (try contunue to move the story forward)\n");
+                    System.out.println("input is not valid (try continue to move the story forward)\n");
                     break;
             }
         }

@@ -1,34 +1,34 @@
 18
 // story start 
 @Description
-It is a dark autumn night in the village of Torlynn.
-Outside, freezing wind rips the last leaves from the
-trees and splatter falling raindrops against the
-windows. Only the fire blazing in the nearby
-fireplace keeps you warm on this stormy night.
-A short, heavy man enters the room. He has a thick
-mustache and a silver-rimmed monocle in his eye.
-With a grunt, he drops into a chair and politely
-smiles at your company.
+It is a dark autumn night in the village of Torlynn. 
+Outside, freezing wind rips the last leaves from the 
+trees and splatter falling raindrops against the 
+windows. Only the fire blazing in the nearby 
+fireplace keeps you warm on this stormy night. 
+A short, heavy man enters the room. He has a thick 
+mustache and a silver-rimmed monocle in his eye. 
+With a grunt, he drops into a chair and politely 
+smiles at your company. 
 @connection
 1
 
 +
 // meeting with town mayor
 @Description
-" Hello. my friends." he says very seriously. "Thank
-you for corning on this awful night. I have called you
-here because the people of Torlynn have need of
-brave heroes such as yourselves.
-"In the mountains above the town is an old iron
-mine. It was dug long ago by a clan of dwarves. They
-took out all of the iron there and then moved on to
-other places to look for more.
-" Over the past few weeks. reports have come to
-me of strange lights and sounds coming from the old
-mine. The people are scared and worried. Please go
-to the mine and explore it. Find out if there is
-something wrong there or if these reports are
+" Hello. my friends." he says very seriously. "Thank 
+you for corning on this awful night. I have called you 
+here because the people of Torlynn have need of 
+brave heroes such as yourselves. 
+"In the mountains above the town is an old iron 
+mine. It was dug long ago by a clan of dwarves. They 
+took out all of the iron there and then moved on to 
+other places to look for more. 
+" Over the past few weeks. reports have come to 
+me of strange lights and sounds coming from the old 
+mine. The people are scared and worried. Please go 
+to the mine and explore it. Find out if there is 
+something wrong there or if these reports are 
 nothing but the wild dreams of fools." 
 @connection
 2
@@ -36,13 +36,13 @@ nothing but the wild dreams of fools."
 +
 // dungeon start
 @Description
-You stand just inside a rough cavern. cut from the
-stone of the mountain long ago by dwarvish hands.
-This is the entrance to the mine. Behind you. a cold
-wind blows as if it would push you into the unknown.
-There is only one way to go now: forward and into
-the darkness of the mine. Gathering your courage
-and checking your weapons. you start down into the
+You stand just inside a rough cavern. cut from the 
+stone of the mountain long ago by dwarvish hands. 
+This is the entrance to the mine. Behind you. a cold 
+wind blows as if it would push you into the unknown. 
+There is only one way to go now: forward and into 
+the darkness of the mine. Gathering your courage 
+and checking your weapons. you start down into the 
 mine shaft. 
 @connection
 3
@@ -50,8 +50,8 @@ mine shaft.
 +
 //room 1 Tunnel
 @Description
-The sound of the wind fades away as you move
-into the mine. The air in here is cool and wet so that
+The sound of the wind fades away as you move 
+into the mine. The air in here is cool and wet so that 
 it feels as if you are walking through thick fog. 
 @connection
 2,4
@@ -59,13 +59,13 @@ it feels as if you are walking through thick fog.
 +
 //room 2 the first lair (goblin and kobold in this room)
 @Description
-As you open the door to this room. a horrible smell
-fills your noses. The floor of this rough cave is
-covered with trash. and flies buzz in the air. Several
-furs have been placed on the floor here. clearly to be
-used as beds. As a matter of fact. two of the beds are
-in use, and a pair of monsters jumps out of them as
-you enter. One is a goblin and the other is a kobold.
+As you open the door to this room. a horrible smell 
+fills your noses. The floor of this rough cave is 
+covered with trash. and flies buzz in the air. Several 
+furs have been placed on the floor here. clearly to be 
+used as beds. As a matter of fact. two of the beds are 
+in use, and a pair of monsters jumps out of them as 
+you enter. One is a goblin and the other is a kobold. 
 They hiss at you and attack! 
 @connection
 3,5
@@ -73,9 +73,9 @@ They hiss at you and attack!
 +
 // room 3 jagged cavern (possible wandering monster)
 @Description
-This is a narrow cavern cut through the stone.
-Small pools of water are spread across the floor. The
-occasional drip and splash of water dripping from
+This is a narrow cavern cut through the stone. 
+Small pools of water are spread across the floor. The 
+occasional drip and splash of water dripping from 
 the walls and ceiling echoes in the air. 
 @connection
 4,6,7,8,9
@@ -83,9 +83,9 @@ the walls and ceiling echoes in the air.
 +
 // room 4 orc lair (orc monster in this room hidden gold)
 @Description
- The air in this small room is thick with the smell of
-rotting meat. A pile of bones stands in the corner. An
-orc has claimed this place as its lair. When it sees
+ The air in this small room is thick with the smell of 
+rotting meat. A pile of bones stands in the corner. An 
+orc has claimed this place as its lair. When it sees 
 you. it roars and attacks! 
 @connection
 5
@@ -93,20 +93,20 @@ you. it roars and attacks!
 +
 // room 5 trapped room (fire trap in this room ) 
 @Description
-This small room is empty and has a funny, bitter
-smell to it. The walls and floor are covered with black
-ash or soot.
+This small room is empty and has a funny, bitter 
+smell to it. The walls and floor are covered with black 
+ash or soot. 
 @connection
 5
 
 +
 // room 6 gnoll lair (gnoll in this room) 
 @Description
-As you open the door to this room . a number of
-small insects buzz past you. Inside. you see that the
-air is dotted with dozens of biting flies. A large. evil
-creature sits on the floor. sharpening a curved
-sword. When it sees you. it cracks an ugly smile and
+As you open the door to this room . a number of 
+small insects buzz past you. Inside. you see that the 
+air is dotted with dozens of biting flies. A large. evil 
+creature sits on the floor. sharpening a curved 
+sword. When it sees you. it cracks an ugly smile and 
 jumps to its feet. 
 @connection
 5
@@ -115,26 +115,26 @@ jumps to its feet.
 +
 // room 7 broken room (possible wandering monster)
 @Description
-This large chamber was cut from the stone long
-ago. In the ages since then. the walls have cracked
-and split. Large blocks of stone have fallen from the
-walls and ceiling. and they litter the floor. The
-gleaming eyes of unknown rodents peak out of
-cracks in the walls from time to time.
+This large chamber was cut from the stone long 
+ago. In the ages since then. the walls have cracked 
+and split. Large blocks of stone have fallen from the 
+walls and ceiling. and they litter the floor. The 
+gleaming eyes of unknown rodents peak out of 
+cracks in the walls from time to time. 
 @connection
 5,10
 
 +
 // room 8 narrow tunnel orc
 @Description
-This is a short. narrow tunnel with a very smooth
-floor. The cool. damp air in here has a strange.
+This is a short. narrow tunnel with a very smooth 
+floor. The cool. damp air in here has a strange. 
 metallic odor to it. 
 
-Suddenly. the door at the end of the hall swings
-open and a foul looking creature steps into sight. As
-he sees you. a cruel snarl spreads across his ugly
-face. He lifts a gleaming black axe that was strapped
+Suddenly. the door at the end of the hall swings 
+open and a foul looking creature steps into sight. As 
+he sees you. a cruel snarl spreads across his ugly 
+face. He lifts a gleaming black axe that was strapped 
 to his back and starts to march toward you. 
 @connection
 9,11
@@ -143,34 +143,34 @@ to his back and starts to march toward you.
 +
 // room 9 story room ( lore check of dc 15 later to succeed)
 @Description
-This is a large chamber that has been polished
-smooth. Ancient dwarvish letters. called runes. have
-been carved into the walls. There is a feeling of great
-age to this place and a sense of wonder seems to
-hang in the air.
+This is a large chamber that has been polished 
+smooth. Ancient dwarvish letters. called runes. have 
+been carved into the walls. There is a feeling of great 
+age to this place and a sense of wonder seems to 
+hang in the air. 
  
-you look at the runes you feel that you have
-seen these before, in the books your brother showed
-you when you where young. after a while you piece together
-what theses ruins are saying.
+you look at the runes you feel that you have 
+seen these before, in the books your brother showed 
+you when you where young. after a while you piece together 
+what theses ruins are saying. 
 
-These runes tell the story of the digging of this
-mine and the work that the dwarves did here. Near
-the end. it mentions that the dwarves found a vein of
-glowing iron unlike anything they had seen before.
-They mined the strange ore. which they called
-eisenmond (i-sen-mond) and found they could make
-weapons of great magic out of it.
-As they mined for more eisenmond. they
-discovered some dark and evil secret about the
-mountain. Unfortunately, the runes don 't say what
-the evil secret was. However. the dwarves packed up
-their things and left overnight.
-The story ends by saying that the dwarves left
-behind one large nugget of eisenmond which glowed
-brighter than the rest. This nugget seems to have
-been left in the care of someone called the "Stone
-King." It is the key to the secret of the mountain-this
+These runes tell the story of the digging of this 
+mine and the work that the dwarves did here. Near 
+the end. it mentions that the dwarves found a vein of 
+glowing iron unlike anything they had seen before. 
+They mined the strange ore. which they called 
+eisenmond (i-sen-mond) and found they could make 
+weapons of great magic out of it. 
+As they mined for more eisenmond. they 
+discovered some dark and evil secret about the 
+mountain. Unfortunately, the runes don 't say what 
+the evil secret was. However. the dwarves packed up 
+their things and left overnight. 
+The story ends by saying that the dwarves left 
+behind one large nugget of eisenmond which glowed 
+brighter than the rest. This nugget seems to have 
+been left in the care of someone called the "Stone 
+King." It is the key to the secret of the mountain-this 
 must be what Gustovan sent you here to find! 
 @connection
 10,12
@@ -178,21 +178,21 @@ must be what Gustovan sent you here to find!
 +
 // room 10 the iron mine goblin kobold or gnoll orc  
 @Description
-This vast chamber has been roughly carved and
-worked. Small veins of iron ore still line the walls.
-showing that this was the heart of the ancient
-dwarven mine. Four monsters are working in here
-when you enter. They howl with rage when they see
-you and attack.
+This vast chamber has been roughly carved and 
+worked. Small veins of iron ore still line the walls. 
+showing that this was the heart of the ancient 
+dwarven mine. Four monsters are working in here 
+when you enter. They howl with rage when they see 
+you and attack. 
 @connection
 11,13
 
 +
 // room 11 tunnel of death ( trap in this room ) 
 @Description
-This is a fairly smooth and straight tunnel. Here
-and there. the floor is marked with the dark stains of
-dried blood! Something inside tells you to be very
+This is a fairly smooth and straight tunnel. Here 
+and there. the floor is marked with the dark stains of 
+dried blood! Something inside tells you to be very 
 careful in here! 
 @connection
 12,14
@@ -201,25 +201,25 @@ careful in here!
 // room 12 mysterious fountain ( healing fountain in this room )( hidden door in this room)
 (trap on door in this room) 
 @Description
-In the center of this room , which has a smooth
-floor and rough walls, is a stone fountain . The
-fountain has been carved in the image of a large
-dragon that coils around itself and sprays water out
-of its mouth. The water lands in a polished stone
-pool that has been cut into the floor around the
-statue. The air in here is sweet with the smell of fresh
-water
+In the center of this room , which has a smooth 
+floor and rough walls, is a stone fountain . The 
+fountain has been carved in the image of a large 
+dragon that coils around itself and sprays water out 
+of its mouth. The water lands in a polished stone 
+pool that has been cut into the floor around the 
+statue. The air in here is sweet with the smell of fresh 
+water 
 
-Looking around this room. you see that there are
-no more doors. This looks like the end of the mine.
-but it can't be. You haven't found the Stone King or
-the large lump of eisenmond. There must be a secret
+Looking around this room. you see that there are 
+no more doors. This looks like the end of the mine. 
+but it can't be. You haven't found the Stone King or 
+the large lump of eisenmond. There must be a secret 
 door somewhere in this room. 
 
-looking around, your eyes are drawn to the northeastern
+looking around, your eyes are drawn to the northeastern 
 corner of the room you don't quite know why but there's 
 something odd going on there. as you approach the corner 
-you can feel a slight breeze. you know now this has to be
+you can feel a slight breeze. you know now this has to be 
 the way forward 
 
 @connection
@@ -229,9 +229,9 @@ the way forward
 +
 //room 13 sloping passage 
 @Description
- This tunnel has been cut downward at a sharp
-angle. Walking down it is very dangerous. requiring
-great care. The walls and floor are rough and
+ This tunnel has been cut downward at a sharp 
+angle. Walking down it is very dangerous. requiring 
+great care. The walls and floor are rough and 
 broken. less well traveled than the rest of the mine. 
 @connection
 16
@@ -239,42 +239,42 @@ broken. less well traveled than the rest of the mine.
 +
 //room 14 the elsenmond mine
 @Description
- This is a rough stone chamber that appears to have
-been one of the most ancient mines of the dwarves.
-Flakes of a mysterious glowing ore flicker in the
-walls. floor, and ceiling. Although there is not enough
-of this unusual metal to be worth anything. it makes
-the dark walls of the room shimmer like a starry
+ This is a rough stone chamber that appears to have 
+been one of the most ancient mines of the dwarves. 
+Flakes of a mysterious glowing ore flicker in the 
+walls. floor, and ceiling. Although there is not enough 
+of this unusual metal to be worth anything. it makes 
+the dark walls of the room shimmer like a starry 
 night.
 
-In the center of this room is a short statue carved
-from a single block of granite. The statue is a dwarf
-with a pick and other mining equipment. Someone
-has ruined the statue by breaking off the head and
-tossing it in the corner. A rusty crown, fashioned
-from iron long ago, rests atop the statue's head. The
-statue's hands are open and held out. as if it had
-been holding something.
-The statue sits on a small pedestal that appears to
+In the center of this room is a short statue carved 
+from a single block of granite. The statue is a dwarf 
+with a pick and other mining equipment. Someone 
+has ruined the statue by breaking off the head and 
+tossing it in the corner. A rusty crown, fashioned 
+from iron long ago, rests atop the statue's head. The 
+statue's hands are open and held out. as if it had 
+been holding something. 
+The statue sits on a small pedestal that appears to 
 be made of several slabs of stone, glued together. 
 
 you get to work finding the pieces of statue 
-scattered about the room and assembling the statue.
+scattered about the room and assembling the statue. 
 
-As soon as the statue is assemble, a strange light
-fills the room. The stone body of the statue glows
-and the mouth moves slowly. In a voice as deep and
-old as the mountain around you. the statue speaks:
-"Though we left this place long ago, the spirit of
-the dwarves remains. This place is ours. It was built
-by our hands and dedicated to the blood of those
-who died here. It is good that you have come. for a
-great evil has tainted the spirit of this place. The
-priceless magical stone. called the Eisenkern. has
-been stolen. When it was taken. the power to trap
-the beast that lives at the heart of this mountain was
-taken also. If the Eisenkern is not returned to this
-place, that terrible beast will be freed and a horrible
+As soon as the statue is assemble, a strange light 
+fills the room. The stone body of the statue glows 
+and the mouth moves slowly. In a voice as deep and 
+old as the mountain around you. the statue speaks: 
+"Though we left this place long ago, the spirit of 
+the dwarves remains. This place is ours. It was built 
+by our hands and dedicated to the blood of those 
+who died here. It is good that you have come. for a 
+great evil has tainted the spirit of this place. The 
+priceless magical stone. called the Eisenkern. has 
+been stolen. When it was taken. the power to trap 
+the beast that lives at the heart of this mountain was 
+taken also. If the Eisenkern is not returned to this 
+place, that terrible beast will be freed and a horrible 
 evil will come upon all who dwell in these lands!" 
 
 @connection
@@ -283,13 +283,13 @@ evil will come upon all who dwell in these lands!"
 +
 { adventure ends return to town }
 @Description
-Gustovan listens carefully to your story. He seems
-troubled by it. After you finish talking, he begins to
-pace around the room. He says, " Clearly, these are
-dark times for our people. Whatever the evil that the
-dwarves found in the mountain. it must not be set
-free. If it is so great and powerful that the dwarves
-fled because of it. Torlynn would be at its mercy. I
+Gustovan listens carefully to your story. He seems 
+troubled by it. After you finish talking, he begins to 
+pace around the room. He says, " Clearly, these are 
+dark times for our people. Whatever the evil that the 
+dwarves found in the mountain. it must not be set 
+free. If it is so great and powerful that the dwarves 
+fled because of it. Torlynn would be at its mercy. I 
 must give this matter careful thought." 
 
 

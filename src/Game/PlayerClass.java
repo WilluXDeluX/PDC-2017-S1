@@ -26,7 +26,7 @@ public class PlayerClass
       public static int[] ranger ()
     {
         stats = new int[9];
-        stats [0] = 15; // hp 
+        stats [0] = 53; // hp 
         stats [1] = 4;  //plus to hit
         stats [2] = 17; //AC
         stats [3] = 8; //str
@@ -41,7 +41,7 @@ public class PlayerClass
     }  public static int[] cleric ()
     {
         stats = new int[9];
-        stats [0] = 22; // hp 
+        stats [0] = 61; // hp 
         stats [1] = 2;  //plus to hit
         stats [2] = 18; //AC
         stats [3] = 14; //str
@@ -57,7 +57,7 @@ public class PlayerClass
       public static int[] mage ()
     {
         stats = new int[9];
-        stats [0] = 12; // hp 
+        stats [0] = 34; // hp 
         stats [1] = 4;  //plus to hit
         stats [2] = 17; //AC
         stats [3] = 8; //str
@@ -75,7 +75,7 @@ public class PlayerClass
 
     {
         stats = new int[9];
-        stats[0] = 20;
+        stats[0] = 82;
         stats[1] = 4;
         stats[2] = 18;
         stats[3] = 18;
