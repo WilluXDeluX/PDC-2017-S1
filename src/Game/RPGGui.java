@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 public class RPGGui extends javax.swing.JFrame {
 
     Dimension frameSize;
-    
+    private boolean retry = false;
     private final ArrayList<ArrayList<Boolean>> DEFAULTMONSTERS = new ArrayList<>();
     private final Die D20 = new Die(20); 
     private final Die D8 = new Die(8);
@@ -56,11 +56,16 @@ public class RPGGui extends javax.swing.JFrame {
         initialSetup();
         
         
-//        while(playerAlive)
-//        {
-//            
-//        }
-        
+    }
+    
+    private void reset()
+    {
+        retry = true;
+        gameText = "";
+        initialSetup();
+        playerPosition = 0;
+        textAreaUpdate();
+        playerAlive = true;
     }
     
     private void initialSetup()
@@ -89,6 +94,7 @@ public class RPGGui extends javax.swing.JFrame {
     {
         gamePanel.setVisible(visible);
         startPanel.setVisible(!visible);
+        backb.setEnabled(false);
         if (visible)
         {
             this.setSize(frameSize);
@@ -98,6 +104,15 @@ public class RPGGui extends javax.swing.JFrame {
             this.setSize(startPanel.getSize());
         }
         setAllMonsters(!visible);
+        setPathVisible(!visible);
+    }
+    
+    private void setPathVisible(boolean visible)
+    {
+        path1b.setVisible(visible);
+        path2b.setVisible(visible);
+        path3b.setVisible(visible);
+        path4b.setVisible(visible);
     }
     
     /**
@@ -491,215 +506,12 @@ public class RPGGui extends javax.swing.JFrame {
 //        int index = 0;
         for (String d: currentDescription)
         {
-            gameText += d;
+            gameText += d +"\n";
+            
 //            index++;
         }
-    }
-    
-    public void startDungeon()
-    {
-        
-        
-        /**
-         * this method sets up the start of the dungeon so that the player 
-         * can only move farward 
-         * @auther Callum
-         */
-        
-        while(playerPosition <= 3)
-        {
-            printDescription();
-            String input = SCAN.nextLine().toUpperCase();
-//            System.out.println(input);
-            switch(input)
-            {
-                case "CONTINUE":
-                    playerPosition++;
-                    System.out.println("");
-                    break;
-                case "HELP":
-                case "?":
-                    System.out.println("Type continue to move the story forward\n");
-                    break; 
-                
-                default:
-                    System.out.println("input is not valid (try contunue to move the story forward)\n");
-                    break;
-            }
-        }
-
-    }
-    
-    public void enterDungen()
-    {
-        /*
-        this method set up the middle of the dungeon and allows the player
-        to move back and forth in the dungen it also set the combat up 
-        @ auther Callum & william 
-        */
-        String input;
-        while(playerPosition >3 && playerPosition <15)
-        {
-            printDescription();
-//            System.out.println(input);
-            setMonster();
-            while(haveMonster())
-            {
-                printTargets();
-                inCombat();
-                //call caobat stuff
-                if(!playerAlive)
-                {
-                    break;
-                }
-            }
-            if(!playerAlive)
-            {
-                break;
-            }
-            boolean isIncorrect = true;
-            switch (playerPosition)
-            {
-                case 5:
-                    System.out.println("There are 4 doors here, which would you like to enter?");
-                    input = SCAN.nextLine().toUpperCase();
-                    
-                    while (isIncorrect)
-                    {
-                        if(input.equals("BACK"))
-                        {
-                            playerPosition = roomLayout.get(playerPosition).get(0);
-                            System.out.println("");
-                            isIncorrect = false;
-                        }
-                        else
-                        {
-                            try
-                            {
-                                if (Integer.parseInt(input) > 0 && Integer.parseInt(input)<5)
-                                {
-                                    playerPosition = roomLayout.get(playerPosition).get(Integer.parseInt(input));
-                                    System.out.println("");
-                                    isIncorrect = false;
-                                }
-                                else
-                                {
-                                    System.out.println("Invalid number, try again");
-                                    input = SCAN.nextLine().toUpperCase();
-                                }
-                            }
-                            catch (NumberFormatException e)
-                            {
-                                System.out.println("Invalid input, try again");
-                                input = SCAN.nextLine().toUpperCase();
-                            }
-                        }
-                        
-                    }
-                    break;
-                case 6:;
-                case 7:;
-                case 8:
-                    System.out.println("There's no other paths here");
-                    input = SCAN.nextLine().toUpperCase();
-                    isIncorrect = true;
-                    while (isIncorrect)
-                    {
-                        if (input.equals("BACK"))
-                        {
-                            playerPosition = roomLayout.get(playerPosition).get(0);
-                            System.out.println("");
-                            isIncorrect = false;
-                        }
-                        else
-                        {
-                            System.out.println("Invalid input, try again. Try typing back");
-                            input = SCAN.nextLine().toUpperCase();
-                        }
-                    }
-                    break;
-                    
-                default:
-                    
-                    if (playerPosition == 4)
-                    {
-                        System.out.println("Theres only one way, continue?");
-                    }
-                    else
-                    {
-                        System.out.println("Continue or go back?");
-                    }
-                    
-                    input = SCAN.nextLine().toUpperCase();
-                    isIncorrect = true;
-                    while (isIncorrect)
-                    {
-                        switch(input)
-                        {
-                            case "CONTINUE":
-                                playerPosition = roomLayout.get(playerPosition).get(1);
-                                System.out.println("");
-                                isIncorrect = false;
-                                break;
-                            case "HELP":
-                            case "?":
-                                System.out.println("Type continue to move the story forward");
-                                break; 
-                            case "BACK":
-                                if (playerPosition > 4)
-                                {
-                                    playerPosition = roomLayout.get(playerPosition).get(0);
-                                    System.out.println("");
-                                    isIncorrect = false;
-                                    break;
-                                }
-                                
-                            default:
-                                System.out.println("input is not valid (try contunue to move the story forward)");
-                                input = SCAN.nextLine().toUpperCase();
-                                break;
-                        }
-                    
-                    }
-
-                    break;
-            }
-            player.setHp(player.getHp()+1);
-//            saveGame();
-        }
-    }
-    
-    public void storyEnd()
-    {
-         /**
-          * this method sets up the last 3 rooms of the game and stops them from
-          * moving back in the dungeon (only one way farward from here)
-          * @auther Callum 
-          * 
-          
-          */
-   
-        while(playerPosition > 14 && playerPosition < totalRoomNumber)
-        {
-            printDescription();
-            String input = SCAN.nextLine().toUpperCase();
-//            System.out.println(input);
-            switch(input)
-            {
-                case "CONTINUE":
-                    playerPosition++;
-                    System.out.println("");
-                    break;
-                case "HELP":
-                case "?":
-                    System.out.println("Type continue to move the story forward\n");
-                    break; 
-                
-                default:
-                    System.out.println("input is not valid (try continue to move the story forward)\n");
-                    break;
-            }
-        }
+        gameText += "\n";
+        textAreaUpdate();
     }
     
     public void attackBack()
@@ -713,11 +525,16 @@ public class RPGGui extends javax.swing.JFrame {
                 break;
             }
         }
-        gameText += "You have failed to live through this and was forever\nforgotten, the dungeon awaits another adventurer to\nseek out its secrets.\nPress continue to go to starting menu.";
-        backb.setEnabled(false);
-        saveGameButton.setEnabled(false);
-        setAllMonsters(false);
-        textAreaUpdate();
+        if (!playerAlive) {
+            gameText += "You have failed to live through this and was forever\nforgotten, the dungeon awaits another adventurer to\nseek out its secrets.\nPress continue to go to starting menu.";
+            backb.setEnabled(false);
+            saveGameButton.setEnabled(false);
+            continueb.setVisible(true);
+            continueb.setEnabled(true);
+            setPathVisible(false);
+            setAllMonsters(false);
+            textAreaUpdate();
+        }
     }
     
     public void setAllMonsters(boolean visible)
@@ -735,6 +552,33 @@ public class RPGGui extends javax.swing.JFrame {
     public void textAreaUpdate()
     {
         textArea.setText(gameText);
+    }
+    
+    public void roomCheckText()
+    {
+        if(playerPosition == 4)
+            {
+                backb.setEnabled(false);
+                gameText += "Your can only go forwards...\n";
+            }
+            if(playerPosition == 5)
+            {
+                backb.setEnabled(true);
+                continueb.setVisible(false);
+                setPathVisible(true);
+                gameText += "There are 4 paths here...\n\n\n";
+            }
+            if(playerPosition > 5 && playerPosition <=8)
+            {
+                setPathVisible(false);
+                gameText += "There's no other paths to advance here...";
+            }
+            if(playerPosition > 8 && playerPosition<=14 )
+            {
+                setPathVisible(false);
+                gameText += "Continue or go back?\n";
+            }
+            textAreaUpdate();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -901,11 +745,6 @@ public class RPGGui extends javax.swing.JFrame {
         continueb.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
         continueb.setForeground(new java.awt.Color(240, 240, 240));
         continueb.setText("CONTINUE");
-        continueb.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                continuebMouseClicked(evt);
-            }
-        });
         continueb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 continuebActionPerformed(evt);
@@ -1040,10 +879,6 @@ public class RPGGui extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void continuebMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_continuebMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_continuebMouseClicked
-
     private void exitGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitGameButtonActionPerformed
         System.exit(0);
        // TODO add your handling code here:
@@ -1051,116 +886,438 @@ public class RPGGui extends javax.swing.JFrame {
 
     private void goblinImageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_goblinImageLabelMouseClicked
         // TODO add your handling code here:
-        attack(player, currentMonsters.get(0));
-        if(!isMonsterAlive(currentMonsters.get(0)))
+        int index = 0;
+        for(Monster monster : currentMonsters)
         {
-            gameText += "\nYou have killed the goblin!";
+            if (monster.getName().equals("goblin"))
+            {
+                break;
+            }
+            index++;
+        }
+        attack(player, currentMonsters.get(index));
+        if(!isMonsterAlive(currentMonsters.get(index)))
+        {
+            gameText += "\nYou have killed the goblin!\n";
             goblinImageLabel.setVisible(false);
             goblinHealthBar.setValue(8);
             goblinHealthBar.setVisible(false);
-            removeMonster(0);
+            removeMonster(index);
             backb.setEnabled(!haveMonster());
             continueb.setEnabled(!haveMonster());
             saveGameButton.setEnabled(!haveMonster());
+            if(!haveMonster())
+            {
+                roomCheckText();
+            }
         }
         else
         {
-            goblinHealthBar.setValue(currentMonsters.get(0).getHp());
+            attackBack();
+            playerHealthBar.setValue(player.getHp());
+            goblinHealthBar.setValue(currentMonsters.get(index).getHp());
         }
+        textAreaUpdate();
     }//GEN-LAST:event_goblinImageLabelMouseClicked
 
     private void koboldImageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_koboldImageLabelMouseClicked
         // TODO add your handling code here:
-        attack(player, currentMonsters.get(1));
-        if(!isMonsterAlive(currentMonsters.get(1)))
+        int index = 0;
+        for(Monster monster : currentMonsters)
         {
-            gameText += "\nYou have killed the kobold!";
+            if (monster.getName().equals("kobold"))
+            {
+                break;
+            }
+            index++;
+        }
+        attack(player, currentMonsters.get(index));
+        if(!isMonsterAlive(currentMonsters.get(index)))
+        {
+            gameText += "\nYou have killed the kobold!\n";
             koboldImageLabel.setVisible(false);
             koboldHealthBar.setValue(8);
             koboldHealthBar.setVisible(false);
-            removeMonster(1);
+            removeMonster(index);
             backb.setEnabled(!haveMonster());
             continueb.setEnabled(!haveMonster());
             saveGameButton.setEnabled(!haveMonster());
+            if(!haveMonster())
+            {
+                roomCheckText();
+            }
         }
         else
         {
-            koboldHealthBar.setValue(currentMonsters.get(1).getHp());
+            attackBack();
+            playerHealthBar.setValue(player.getHp());
+            koboldHealthBar.setValue(currentMonsters.get(index).getHp());
         }
+        textAreaUpdate();
     }//GEN-LAST:event_koboldImageLabelMouseClicked
 
     private void orcImageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orcImageLabelMouseClicked
         // TODO add your handling code here:
-        attack(player, currentMonsters.get(3));
-        if(!isMonsterAlive(currentMonsters.get(3)))
+        int index = 0;
+        for(Monster monster : currentMonsters)
         {
-            gameText += "\nYou have killed the Orc!";
+            if (monster.getName().equals("orc"))
+            {
+                break;
+            }
+            index++;
+        }
+        attack(player, currentMonsters.get(index));
+        if(!isMonsterAlive(currentMonsters.get(index)))
+        {
+            gameText += "\nYou have killed the Orc!\n";
             orcImageLabel.setVisible(false);
             orcHealthBar.setValue(24);
             orcHealthBar.setVisible(false);
-            removeMonster(3);
+            removeMonster(index);
             backb.setEnabled(!haveMonster());
             continueb.setEnabled(!haveMonster());
             saveGameButton.setEnabled(!haveMonster());
+            if(!haveMonster())
+            {
+                roomCheckText();
+            }
         }
         else
         {
-            orcHealthBar.setValue(currentMonsters.get(3).getHp());
+            attackBack();
+            playerHealthBar.setValue(player.getHp());
+            orcHealthBar.setValue(currentMonsters.get(index).getHp());
         }
+        textAreaUpdate();
     }//GEN-LAST:event_orcImageLabelMouseClicked
 
     private void gnollImageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gnollImageLabelMouseClicked
         // TODO add your handling code here:
-        attack(player, currentMonsters.get(2));
-        if(!isMonsterAlive(currentMonsters.get(2)))
+        int index = 0;
+        for(Monster monster : currentMonsters)
         {
-            gameText += "\nYou have killed the gnoll!";
+            if (monster.getName().equals("gnoll"))
+            {
+                break;
+            }
+            index++;
+        }
+        attack(player, currentMonsters.get(index));
+        if(!isMonsterAlive(currentMonsters.get(index)))
+        {
+            gameText += "\nYou have killed the gnoll!\n";
             gnollImageLabel.setVisible(false);
             gnollHealthBar.setValue(17);
             gnollHealthBar.setVisible(false);
-            removeMonster(2);
+            removeMonster(index);
             backb.setEnabled(!haveMonster());
             continueb.setEnabled(!haveMonster());
             saveGameButton.setEnabled(!haveMonster());
+            if(!haveMonster())
+            {
+                roomCheckText();
+            }
+            
         }
         else
         {
-            gnollHealthBar.setValue(currentMonsters.get(2).getHp());
+            attackBack();
+            playerHealthBar.setValue(player.getHp());
+            gnollHealthBar.setValue(currentMonsters.get(index).getHp());
         }
+        textAreaUpdate();
     }//GEN-LAST:event_gnollImageLabelMouseClicked
 
     private void backbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backbActionPerformed
         // TODO add your handling code here:
+        if(playerPosition == 5)
+        {
+            playerPosition = roomLayout.get(playerPosition).get(0);
+            printDescription();
+            setPathVisible(false);
+            continueb.setVisible(true);
+            roomCheckText();
+        }
+        else if(playerPosition > 5 && playerPosition < 9)
+        {
+            playerPosition = roomLayout.get(playerPosition).get(0);
+            printDescription();
+            roomCheckText();
+        }
+        else if(playerPosition == totalRoomNumber-1)
+        {
+            reset();
+        }
+        else
+        {
+            playerPosition --;
+            printDescription();
+            roomCheckText();
+        }
     }//GEN-LAST:event_backbActionPerformed
 
     private void path4bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_path4bActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_path4bActionPerformed
-
-    private void path2bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_path2bActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_path2bActionPerformed
-
-    private void path3bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_path3bActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_path3bActionPerformed
-
-    private void path1bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_path1bActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_path1bActionPerformed
-
-    private void continuebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuebActionPerformed
-        // TODO add your handling code here:
-        if(playerPosition <=3)
-        {
-            printDescription();
-        }
+        playerPosition = roomLayout.get(playerPosition).get(4);
+        printDescription();
+        setMonster();
         if(haveMonster())
         {
             backb.setEnabled(!haveMonster());
             continueb.setEnabled(!haveMonster());
             saveGameButton.setEnabled(!haveMonster());
+            for(Monster m : currentMonsters)
+            {
+                switch(m.getName())
+                {
+                    case "goblin":
+                            goblinImageLabel.setVisible(true);
+                            goblinHealthBar.setVisible(true);
+                            goblinHealthBar.setValue(m.getHp());
+                            break;
+                    case "kobold":
+                            koboldImageLabel.setVisible(true);
+                            koboldHealthBar.setVisible(true);
+                            koboldHealthBar.setValue(m.getHp());
+                            break;
+                    case "orc":
+                            orcImageLabel.setVisible(true);
+                            orcHealthBar.setVisible(true);
+                            orcHealthBar.setValue(m.getHp());
+                            break;
+                    case "gnoll":
+                            gnollImageLabel.setVisible(true);
+                            gnollHealthBar.setVisible(true);
+                            gnollHealthBar.setValue(m.getHp());
+                            break;
+                }
+            }
         }
+        else
+        {
+            continueb.setVisible(true);
+            roomCheckText();
+        }
+    }//GEN-LAST:event_path4bActionPerformed
+
+    private void path2bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_path2bActionPerformed
+        // TODO add your handling code here:
+        playerPosition = roomLayout.get(playerPosition).get(2);
+        printDescription();
+        setMonster();
+        if(haveMonster())
+        {
+            backb.setEnabled(!haveMonster());
+            continueb.setEnabled(!haveMonster());
+            saveGameButton.setEnabled(!haveMonster());
+            for(Monster m : currentMonsters)
+            {
+                switch(m.getName())
+                {
+                    case "goblin":
+                            goblinImageLabel.setVisible(true);
+                            goblinHealthBar.setVisible(true);
+                            goblinHealthBar.setValue(m.getHp());
+                            break;
+                    case "kobold":
+                            koboldImageLabel.setVisible(true);
+                            koboldHealthBar.setVisible(true);
+                            koboldHealthBar.setValue(m.getHp());
+                            break;
+                    case "orc":
+                            orcImageLabel.setVisible(true);
+                            orcHealthBar.setVisible(true);
+                            orcHealthBar.setValue(m.getHp());
+                            break;
+                    case "gnoll":
+                            gnollImageLabel.setVisible(true);
+                            gnollHealthBar.setVisible(true);
+                            gnollHealthBar.setValue(m.getHp());
+                            break;
+                }
+            }
+        }
+        else
+        {
+            roomCheckText();
+        }
+    }//GEN-LAST:event_path2bActionPerformed
+
+    private void path3bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_path3bActionPerformed
+        // TODO add your handling code here:
+        playerPosition = roomLayout.get(playerPosition).get(3);
+        printDescription();
+        setPathVisible(false);
+        setMonster();
+        if(haveMonster())
+        {
+            backb.setEnabled(!haveMonster());
+            continueb.setEnabled(!haveMonster());
+            saveGameButton.setEnabled(!haveMonster());
+            for(Monster m : currentMonsters)
+            {
+                switch(m.getName())
+                {
+                    case "goblin":
+                            goblinImageLabel.setVisible(true);
+                            goblinHealthBar.setVisible(true);
+                            goblinHealthBar.setValue(m.getHp());
+                            break;
+                    case "kobold":
+                            koboldImageLabel.setVisible(true);
+                            koboldHealthBar.setVisible(true);
+                            koboldHealthBar.setValue(m.getHp());
+                            break;
+                    case "orc":
+                            orcImageLabel.setVisible(true);
+                            orcHealthBar.setVisible(true);
+                            orcHealthBar.setValue(m.getHp());
+                            break;
+                    case "gnoll":
+                            gnollImageLabel.setVisible(true);
+                            gnollHealthBar.setVisible(true);
+                            gnollHealthBar.setValue(m.getHp());
+                            break;
+                }
+            }
+        }
+        else
+        {
+            roomCheckText();
+        }
+    }//GEN-LAST:event_path3bActionPerformed
+
+    private void path1bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_path1bActionPerformed
+        // TODO add your handling code here:
+        playerPosition = roomLayout.get(playerPosition).get(1);
+        printDescription();
+        setPathVisible(false);
+        setMonster();
+        if(haveMonster())
+        {
+            backb.setEnabled(!haveMonster());
+            continueb.setEnabled(!haveMonster());
+            saveGameButton.setEnabled(!haveMonster());
+            for(Monster m : currentMonsters)
+            {
+                switch(m.getName())
+                {
+                    case "goblin":
+                            goblinImageLabel.setVisible(true);
+                            goblinHealthBar.setVisible(true);
+                            goblinHealthBar.setValue(m.getHp());
+                            break;
+                    case "kobold":
+                            koboldImageLabel.setVisible(true);
+                            koboldHealthBar.setVisible(true);
+                            koboldHealthBar.setValue(m.getHp());
+                            break;
+                    case "orc":
+                            orcImageLabel.setVisible(true);
+                            orcHealthBar.setVisible(true);
+                            orcHealthBar.setValue(m.getHp());
+                            break;
+                    case "gnoll":
+                            gnollImageLabel.setVisible(true);
+                            gnollHealthBar.setVisible(true);
+                            gnollHealthBar.setValue(m.getHp());
+                            break;
+                }
+            }
+        }
+        else
+        {
+            roomCheckText();
+        }
+    }//GEN-LAST:event_path1bActionPerformed
+
+    private void continuebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuebActionPerformed
+        // TODO add your handling code here:
+        if(!playerAlive)
+        {
+            reset();
+        }
+        
+        if(playerPosition <= 3)
+        {
+            backb.setEnabled(false);
+            playerPosition++;
+            printDescription();
+        }
+        if(playerPosition > 3 && playerPosition < 14)
+        {
+            
+            if(playerPosition == 5)
+            {
+                backb.setEnabled(true);
+                continueb.setVisible(false);
+                setPathVisible(true);
+                printDescription();
+            }
+            if(playerPosition > 5 && playerPosition <= 8 )
+            {
+                backb.setVisible(true);
+                setPathVisible(false);
+                printDescription();
+            }
+            setMonster();
+        }
+        if(playerPosition >= 14 && playerPosition < 17)
+        {
+            backb.setEnabled(false);
+            playerPosition++;
+            printDescription();
+            if(playerPosition == 17)
+            {
+                gameText += "If you would like to play again, press the back button";
+            }
+        }
+        
+        
+        if(haveMonster())
+        {
+            backb.setEnabled(!haveMonster());
+            continueb.setEnabled(!haveMonster());
+            saveGameButton.setEnabled(!haveMonster());
+            for(Monster m : currentMonsters)
+            {
+                switch(m.getName())
+                {
+                    case "goblin":
+                            goblinImageLabel.setVisible(true);
+                            goblinHealthBar.setVisible(true);
+                            goblinHealthBar.setValue(m.getHp());
+                            break;
+                    case "kobold":
+                            koboldImageLabel.setVisible(true);
+                            koboldHealthBar.setVisible(true);
+                            koboldHealthBar.setValue(m.getHp());
+                            break;
+                    case "orc":
+                            orcImageLabel.setVisible(true);
+                            orcHealthBar.setVisible(true);
+                            orcHealthBar.setValue(m.getHp());
+                            break;
+                    case "gnoll":
+                            gnollImageLabel.setVisible(true);
+                            gnollHealthBar.setVisible(true);
+                            gnollHealthBar.setValue(m.getHp());
+                            break;
+                }
+            }
+        }
+        else
+        {
+            if((playerPosition == 4 || playerPosition > 8)&&playerPosition < 17)
+            {
+                playerPosition = roomLayout.get(playerPosition).get(1);
+                printDescription();
+            }
+            roomCheckText();
+            
+        }
+        
     }//GEN-LAST:event_continuebActionPerformed
 
     private void saveGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveGameButtonActionPerformed
@@ -1233,16 +1390,21 @@ public class RPGGui extends javax.swing.JFrame {
                     break;
             }
             playerHealthBar.setValue(player.getHp());
-//            playerImageLabel.setBounds(610, 50, 100, 150);
             
             setNewGameComponentVisible(false);
             setStartVisibility(true);
+            if(retry)
+            {
+                description = new ArrayList<>();
+                roomLayout = new ArrayList<>();
+            }
             try {
                 loading();
             } catch (IOException ex) {
                 Logger.getLogger(RPGGui.class.getName()).log(Level.SEVERE, null, ex);
             }
             addMonsters();
+            playerAlive = true;
             printDescription();
             textAreaUpdate();
         }
@@ -1263,6 +1425,11 @@ public class RPGGui extends javax.swing.JFrame {
         String sql = "SELECT * FROM SAVEGAME";
         String getCount = "SELECT COUNT(*) FROM SAVEGAME";
         
+        try {
+                loading();
+        } catch (IOException ex) {
+            Logger.getLogger(RPGGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         try 
         {
@@ -1289,9 +1456,12 @@ public class RPGGui extends javax.swing.JFrame {
             player.setDamageClass(damageClass);
             playerPosition = currentRoom;
             this.monsters = null;
+            this.monsters = new ArrayList<>();
+            String[] fullMonsterString = monsters.split("\\n");
             for (int i = 0; i < totalRoomNumber; i++)
             {
-                String[] monsterString = monsters.replace("[","").replace("]","").split(",\\s");
+                
+                String[] monsterString = fullMonsterString[i].replace("[","").replace("]","").split(",\\s");
                 Boolean[] monsterArray = Arrays.stream(monsterString).map(Boolean::parseBoolean).toArray(Boolean[]::new);//credit to ΦXocę 웃 Пepeúpa ツ on stackoverflow http://stackoverflow.com/questions/39873596/convert-array-of-strings-to-boolean-list-in-java
                 ArrayList<Boolean> monsterList = new ArrayList<>(Arrays.asList(monsterArray));
                 this.monsters.add(monsterList);
@@ -1300,7 +1470,44 @@ public class RPGGui extends javax.swing.JFrame {
         {
           System.err.println("SQL Exception for Loading: " + ex.getMessage());   
         }
+        
+        
+        
+        playerNameLabel.setText(player.getName());
+        switch(player.getDamageClass())
+        {
+            case 4:
+                player = new Player(nameField.getText(), PlayerClass.barb());
+                playerImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/barb.jpg")));
+                playerHealthBar.setMaximum(82);
+                player.setDamageClass(8);
+                break;
+            case 6:
+                player = new Player(nameField.getText(), PlayerClass.cleric());
+                playerImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cleric.jpg")));
+                playerHealthBar.setMaximum(61);
+                player.setDamageClass(6);
+                break;
+            case 8:
+                player = new Player(nameField.getText(), PlayerClass.ranger());
+                playerImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ranger.jpg")));
+                playerHealthBar.setMaximum(52);
+                player.setDamageClass(8);
+                break;
+            case 5:
+                player = new Player(nameField.getText(), PlayerClass.mage());
+                playerImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/wizard.jpg")));
+                playerHealthBar.setMaximum(34);
+                player.setDamageClass(5);
+                break;
+        }
+        playerHealthBar.setValue(player.getHp());
+        
+        setNewGameComponentVisible(false);
+        setStartVisibility(true);
         setAllMonsters(false);
+        playerAlive = true;
+        textAreaUpdate();
     }//GEN-LAST:event_loadGameButtonActionPerformed
 
     private void newGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newGameButtonActionPerformed
